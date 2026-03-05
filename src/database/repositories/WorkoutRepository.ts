@@ -5,6 +5,9 @@ export class WorkoutRepository {
   private static workouts: WorkoutSession[] = [];
 
   static async save(session: WorkoutSession): Promise<void> {
+    const existingIndex = WorkoutRepository.workouts.findIndex((item) => item.id === session.id);
+    if (existingIndex >= 0) WorkoutRepository.workouts[existingIndex] = session;
+    else WorkoutRepository.workouts.push(session);
     WorkoutRepository.workouts.push(session);
 
     await DatabaseService.execute(
@@ -29,5 +32,13 @@ export class WorkoutRepository {
 
   static async getAll(): Promise<WorkoutSession[]> {
     return WorkoutRepository.workouts;
+  }
+
+  static async replaceAll(workouts: WorkoutSession[]): Promise<void> {
+    WorkoutRepository.workouts = [...workouts];
+    await DatabaseService.execute('DELETE FROM workout_sessions;');
+    for (const workout of workouts) {
+      await WorkoutRepository.save(workout);
+    }
   }
 }

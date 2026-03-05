@@ -36,4 +36,12 @@ export class BodyMeasurementRepository {
   static async getAll(): Promise<BodyMeasurement[]> {
     return BodyMeasurementRepository.measurements;
   }
+
+  static async replaceAll(measurements: BodyMeasurement[]): Promise<void> {
+    BodyMeasurementRepository.measurements = [...measurements];
+    await DatabaseService.execute('DELETE FROM body_measurements;');
+    for (const measurement of measurements) {
+      await BodyMeasurementRepository.save(measurement);
+    }
+  }
 }

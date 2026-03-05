@@ -1,6 +1,9 @@
 import { create } from 'zustand';
 import { Exercise, ExerciseSet, WorkoutSession, WorkoutTemplate } from '../types';
 import { WorkoutSessionService } from '../services/workout/WorkoutSessionService';
+import { createId } from '../utils/id';
+import { toIsoDate } from '../utils/date';
+import { AppConfig } from '../constants/config';
 
 interface WorkoutState {
   activeWorkout: WorkoutSession | null;
@@ -20,6 +23,7 @@ interface WorkoutState {
   cancelWorkout: () => void;
 }
 
+export const useWorkoutStore = create<WorkoutState>((set, get) => ({
 const id = () => `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 
 export const useWorkoutStore = create<WorkoutState>((set, get) => ({
@@ -28,6 +32,11 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
   restTimer: { isRunning: false, timeRemaining: 0, totalTime: 0 },
 
   startWorkout: (template) => {
+    const now = new Date();
+    const newWorkout: WorkoutSession = {
+      id: createId('workout'),
+      date: toIsoDate(now),
+      startTime: now.toISOString(),
     const today = new Date();
     const date = today.toISOString().split('T')[0];
     const newWorkout: WorkoutSession = {
@@ -56,6 +65,11 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
           exercises: [
             ...state.activeWorkout.exercises,
             {
+              id: createId('workout-exercise'),
+              exerciseId: exercise.id,
+              exerciseName: exercise.name,
+              sets: [],
+              restTimeSeconds: AppConfig.defaultRestTimeSeconds,
               id: id(),
               exerciseId: exercise.id,
               exerciseName: exercise.name,
@@ -79,6 +93,7 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
             exercise.id === exerciseId
               ? {
                   ...exercise,
+                  sets: [...exercise.sets, { ...incomingSet, id: createId('set') }],
                   sets: [...exercise.sets, { ...incomingSet, id: id() }],
                 }
               : exercise

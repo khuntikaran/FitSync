@@ -35,6 +35,26 @@ export class BackupService {
       Array.isArray(candidate.measurements) &&
       Array.isArray(candidate.records)
     );
+  }
+
+  static async importData(payload: unknown): Promise<boolean> {
+    if (!BackupService.validateImportPayload(payload)) {
+      throw new Error('Invalid backup payload');
+    }
+
+    const data = payload;
+
+    if (data.user) {
+      await UserRepository.save(data.user);
+    } else {
+      await UserRepository.clear();
+    }
+
+    await WorkoutRepository.replaceAll(data.workouts);
+    await BodyMeasurementRepository.replaceAll(data.measurements);
+    await PersonalRecordRepository.replaceAll(data.records);
+
+    return true;
     return candidate.version === '1.0' && typeof candidate.exportDate === 'string';
   }
 }

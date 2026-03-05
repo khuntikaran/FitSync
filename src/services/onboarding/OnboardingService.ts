@@ -1,6 +1,8 @@
 import { CalorieCalculator } from '../calculations/CalorieCalculator';
 import { UserRepository } from '../../database/repositories/UserRepository';
 import { ActivityLevel, Gender, UserProfile } from '../../types';
+import { createId } from '../../utils/id';
+import { AppConfig } from '../../constants/config';
 
 interface OnboardingInput {
   age: number;
@@ -18,6 +20,12 @@ function validateOnboardingInput(input: OnboardingInput): void {
     throw new Error('Age must be between 13 and 100.');
   }
 
+  if (!Number.isFinite(input.heightCm) || input.heightCm <= 0 || input.heightCm > 300) {
+    throw new Error('Height must be a positive number under 300 cm.');
+  }
+
+  if (!Number.isFinite(input.weightKg) || input.weightKg <= 0 || input.weightKg > 500) {
+    throw new Error('Weight must be a positive number under 500 kg.');
   if (!Number.isFinite(input.heightCm) || input.heightCm <= 0) {
     throw new Error('Height must be a positive number.');
   }
@@ -41,6 +49,7 @@ export class OnboardingService {
     const tdee = CalorieCalculator.calculateTDEE(bmr, input.activityLevel);
 
     return {
+      id: createId('user'),
       id: generateId(),
       age: input.age,
       gender: input.gender,
@@ -49,6 +58,7 @@ export class OnboardingService {
       activityLevel: input.activityLevel,
       bmr,
       tdee,
+      unitSystem: input.unitSystem ?? AppConfig.unitSystem.default,
       unitSystem: input.unitSystem ?? 'metric',
     };
   }

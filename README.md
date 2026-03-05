@@ -7,6 +7,8 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - TypeScript project scaffolding (`package.json`, `tsconfig.json`)
 - Domain model types in `src/types`
 - Scientific calculation service in `src/services/calculations/CalorieCalculator.ts`
+- Unit conversion helpers plus shared ID/date utilities in `src/utils`
+- Theming constants and app config in `src/constants`
 - Unit conversion helpers in `src/utils/unitConversion.ts`
 - Theming constants in `src/constants/colors.ts`
 - SQLite schema string in `src/database/schema.ts`
@@ -21,6 +23,13 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - Database seed flow in `src/services/seed/seedDatabase.ts`
 - Onboarding profile assembly + validation + persistence in `src/services/onboarding/OnboardingService.ts`
 - Workout analytics/finalization/history/progress helpers in `src/services/analytics`, `src/services/workout`, and `src/services/progress`
+- Measurement and PR domain services in `src/services/measurements/MeasurementService.ts` and `src/services/records/PersonalRecordService.ts`
+- Dashboard summary aggregation in `src/services/dashboard/DashboardService.ts`
+- Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
+- Backup export/import payload helpers in `src/services/backup/BackupService.ts`
+- Notification service abstraction with pluggable adapter in `src/services/notifications/NotificationService.ts`
+- React Native SQLite adapter boundary scaffold in `src/database/adapters/reactNativeSQLiteAdapter.ts`
+- Navigation route ordering config and main screen placeholders
 - Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
 - Repositories for users, workouts, and exercises in `src/database/repositories`
 - Database seed flow in `src/services/seed/seedDatabase.ts`

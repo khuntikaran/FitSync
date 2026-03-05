@@ -27,4 +27,9 @@ export class UserRepository {
   static async get(): Promise<UserProfile | null> {
     return UserRepository.currentProfile;
   }
+
+  static async clear(): Promise<void> {
+    UserRepository.currentProfile = null;
+    await DatabaseService.execute('DELETE FROM users;');
+  }
 }

@@ -39,4 +39,12 @@ export class PersonalRecordRepository {
 
     return active ?? null;
   }
+
+  static async replaceAll(records: PersonalRecord[]): Promise<void> {
+    PersonalRecordRepository.records = [...records];
+    await DatabaseService.execute('DELETE FROM personal_records;');
+    for (const record of records) {
+      await PersonalRecordRepository.save(record);
+    }
+  }
 }
