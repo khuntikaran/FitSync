@@ -28,6 +28,9 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - Notification service abstraction with pluggable adapter in `src/services/notifications/NotificationService.ts`
 - React Native SQLite adapter boundary scaffold in `src/database/adapters/reactNativeSQLiteAdapter.ts`
 - Navigation route ordering config and main screen placeholders
+- Seed exercise/template constants in `src/constants/exercises.ts`
+- SQLite schema string in `src/database/schema.ts`
+- Initial Zustand stores for user/workout workflows in `src/store`
 
 ## Planned architecture (target)
 
@@ -54,3 +57,8 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 3. Expand exercise seed data to full 150+ library and add images.
 4. Add unit tests once package registry access allows installing dependencies.
 5. Add body measurements/PR repositories and richer progress chart data sources.
+1. Add React Native app bootstrap and navigation shell.
+2. Wire SQLite connection + migration runner around `CREATE_TABLES`.
+3. Implement repository layer and seed script for 150+ exercises.
+4. Build onboarding screens and connect BMR/TDEE flow.
+5. Build active workout tracking screen with rest timer integration.

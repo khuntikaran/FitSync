@@ -23,6 +23,7 @@ interface WorkoutState {
 const id = () => `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 
 export const useWorkoutStore = create<WorkoutState>((set, get) => ({
+export const useWorkoutStore = create<WorkoutState>((set) => ({
   activeWorkout: null,
   restTimer: { isRunning: false, timeRemaining: 0, totalTime: 0 },
 
@@ -131,4 +132,5 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
 
   cancelWorkout: () =>
     set({ activeWorkout: null, restTimer: { isRunning: false, timeRemaining: 0, totalTime: 0 } }),
+  cancelWorkout: () => set({ activeWorkout: null, restTimer: { isRunning: false, timeRemaining: 0, totalTime: 0 } }),
 }));
