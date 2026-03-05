@@ -6,7 +6,14 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "types": [
+      "react",
+      "react-native"
+    ]
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
