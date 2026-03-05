@@ -1,4 +1,5 @@
 import { BodyMeasurement, WorkoutSession } from '../../types';
+import { WorkoutSession } from '../../types';
 
 export interface WeeklyVolumeSummary {
   totalVolumeKg: number;
@@ -9,18 +10,6 @@ export interface WeeklyVolumeSummary {
 export interface WeightTrendPoint {
   date: string;
   weightKg: number;
-}
-
-export type ProgressPeriod = 'week' | 'month' | 'year' | 'all';
-
-function filterWorkoutsByPeriod(workouts: WorkoutSession[], period: ProgressPeriod): WorkoutSession[] {
-  if (period === 'all') return workouts;
-
-  const now = new Date();
-  const days = period === 'week' ? 7 : period === 'month' ? 30 : 365;
-  const threshold = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
-
-  return workouts.filter((workout) => new Date(`${workout.date}T00:00:00.000Z`) >= threshold);
 }
 
 export class ProgressService {
@@ -36,13 +25,6 @@ export class ProgressService {
       workouts: workouts.length,
       avgVolumePerWorkout: Math.round((totalVolumeKg / workouts.length) * 10) / 10,
     };
-  }
-
-  static summarizeVolumeByPeriod(
-    workouts: WorkoutSession[],
-    period: ProgressPeriod
-  ): WeeklyVolumeSummary {
-    return ProgressService.summarizeWeeklyVolume(filterWorkoutsByPeriod(workouts, period));
   }
 
   static buildWeightTrend(measurements: BodyMeasurement[]): WeightTrendPoint[] {

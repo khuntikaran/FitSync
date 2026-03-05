@@ -2,7 +2,6 @@ import { BodyMeasurementRepository } from '../../database/repositories/BodyMeasu
 import { PersonalRecordRepository } from '../../database/repositories/PersonalRecordRepository';
 import { UserRepository } from '../../database/repositories/UserRepository';
 import { WorkoutRepository } from '../../database/repositories/WorkoutRepository';
-import { DatabaseService } from '../../database/connection';
 
 export interface ExportData {
   version: '1.0';
@@ -45,18 +44,17 @@ export class BackupService {
 
     const data = payload;
 
-    await DatabaseService.transaction(async () => {
-      if (data.user) {
-        await UserRepository.save(data.user);
-      } else {
-        await UserRepository.clear();
-      }
+    if (data.user) {
+      await UserRepository.save(data.user);
+    } else {
+      await UserRepository.clear();
+    }
 
-      await WorkoutRepository.replaceAll(data.workouts);
-      await BodyMeasurementRepository.replaceAll(data.measurements);
-      await PersonalRecordRepository.replaceAll(data.records);
-    });
+    await WorkoutRepository.replaceAll(data.workouts);
+    await BodyMeasurementRepository.replaceAll(data.measurements);
+    await PersonalRecordRepository.replaceAll(data.records);
 
     return true;
+    return candidate.version === '1.0' && typeof candidate.exportDate === 'string';
   }
 }

@@ -3,7 +3,6 @@ import { UserRepository } from '../../database/repositories/UserRepository';
 import { ActivityLevel, Gender, UserProfile } from '../../types';
 import { createId } from '../../utils/id';
 import { AppConfig } from '../../constants/config';
-import { assertInRange, assertPositive } from '../../utils/validation';
 
 interface OnboardingInput {
   age: number;
@@ -14,17 +13,25 @@ interface OnboardingInput {
   unitSystem?: 'metric' | 'imperial';
 }
 
-function validateOnboardingInput(input: OnboardingInput): void {
-  assertInRange(input.age, 'Age', 13, 100);
-  assertPositive(input.heightCm, 'Height');
-  assertPositive(input.weightKg, 'Weight');
+const generateId = () => `user-${Date.now()}`;
 
-  if (input.heightCm > 300) {
+function validateOnboardingInput(input: OnboardingInput): void {
+  if (!Number.isFinite(input.age) || input.age < 13 || input.age > 100) {
+    throw new Error('Age must be between 13 and 100.');
+  }
+
+  if (!Number.isFinite(input.heightCm) || input.heightCm <= 0 || input.heightCm > 300) {
     throw new Error('Height must be a positive number under 300 cm.');
   }
 
-  if (input.weightKg > 500) {
+  if (!Number.isFinite(input.weightKg) || input.weightKg <= 0 || input.weightKg > 500) {
     throw new Error('Weight must be a positive number under 500 kg.');
+  if (!Number.isFinite(input.heightCm) || input.heightCm <= 0) {
+    throw new Error('Height must be a positive number.');
+  }
+
+  if (!Number.isFinite(input.weightKg) || input.weightKg <= 0) {
+    throw new Error('Weight must be a positive number.');
   }
 }
 
@@ -43,6 +50,7 @@ export class OnboardingService {
 
     return {
       id: createId('user'),
+      id: generateId(),
       age: input.age,
       gender: input.gender,
       heightCm: input.heightCm,
@@ -51,6 +59,7 @@ export class OnboardingService {
       bmr,
       tdee,
       unitSystem: input.unitSystem ?? AppConfig.unitSystem.default,
+      unitSystem: input.unitSystem ?? 'metric',
     };
   }
 
