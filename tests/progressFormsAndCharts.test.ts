@@ -64,6 +64,7 @@ describe('progress forms and chart pipeline', () => {
       name: 'Push',
       workoutType: 'push',
       exercises: [{ id: 'we1', exerciseId: 'barbell_bench_press', exerciseName: 'Barbell Bench Press', sets: [], restTimeSeconds: 90, orderIndex: 0 }],
+      exercises: [],
       totalCaloriesBurned: 300,
       totalVolumeKg: 1200,
       totalDurationSeconds: 3600,
