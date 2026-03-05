@@ -8,7 +8,6 @@ export class WorkoutRepository {
     const existingIndex = WorkoutRepository.workouts.findIndex((item) => item.id === session.id);
     if (existingIndex >= 0) WorkoutRepository.workouts[existingIndex] = session;
     else WorkoutRepository.workouts.push(session);
-    WorkoutRepository.workouts.push(session);
 
     await DatabaseService.execute(
       `INSERT OR REPLACE INTO workout_sessions
@@ -31,7 +30,7 @@ export class WorkoutRepository {
   }
 
   static async getAll(): Promise<WorkoutSession[]> {
-    return WorkoutRepository.workouts;
+    return [...WorkoutRepository.workouts];
   }
 
   static async replaceAll(workouts: WorkoutSession[]): Promise<void> {
