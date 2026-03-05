@@ -6,6 +6,9 @@ import { WorkoutRepository } from '../src/database/repositories/WorkoutRepositor
 import { BodyMeasurementRepository } from '../src/database/repositories/BodyMeasurementRepository';
 import { PersonalRecordRepository } from '../src/database/repositories/PersonalRecordRepository';
 import { UserRepository } from '../src/database/repositories/UserRepository';
+import { describe, expect, it } from 'vitest';
+import { AppConfig } from '../src/constants/config';
+import { BackupService } from '../src/services/backup/BackupService';
 
 function buildValidPayload() {
   return {
