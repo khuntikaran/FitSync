@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="2048" viewBox="0 0 1536 2048" role="img" aria-label="FitSync Splash">
+  <rect width="1536" height="2048" fill="#121212"/>
+  <circle cx="768" cy="700" r="200" fill="#FF6B35"/>
+  <rect x="548" y="980" width="440" height="130" rx="65" fill="#004E89"/>
+  <text x="768" y="1320" text-anchor="middle" fill="#FFFFFF" font-size="180" font-family="Arial">FitSync</text>
+  <text x="768" y="1480" text-anchor="middle" fill="#B0B0B0" font-size="72" font-family="Arial">Train Offline. Progress Online.</text>
+</svg>

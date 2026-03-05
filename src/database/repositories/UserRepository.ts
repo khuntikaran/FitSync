@@ -5,7 +5,7 @@ export class UserRepository {
   private static currentProfile: UserProfile | null = null;
 
   static async save(profile: UserProfile): Promise<void> {
-    UserRepository.currentProfile = profile;
+    UserRepository.currentProfile = { ...profile };
 
     await DatabaseService.execute(
       `INSERT OR REPLACE INTO users (id, age, gender, height_cm, weight_kg, activity_level, bmr, tdee, unit_system)
@@ -25,7 +25,7 @@ export class UserRepository {
   }
 
   static async get(): Promise<UserProfile | null> {
-    return UserRepository.currentProfile;
+    return UserRepository.currentProfile ? { ...UserRepository.currentProfile } : null;
   }
 
   static async clear(): Promise<void> {
