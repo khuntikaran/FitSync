@@ -1,14 +1,13 @@
 import { BodyMeasurement } from '../../types';
 import { BodyMeasurementRepository } from '../../database/repositories/BodyMeasurementRepository';
 import { ProgressService } from '../progress/ProgressService';
-
-const generateId = () => `bm-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+import { createId } from '../../utils/id';
 
 export class MeasurementService {
   static async logMeasurement(
     measurement: Omit<BodyMeasurement, 'id'>
   ): Promise<BodyMeasurement> {
-    const withId: BodyMeasurement = { ...measurement, id: generateId() };
+    const withId: BodyMeasurement = { ...measurement, id: createId('bm') };
     await BodyMeasurementRepository.save(withId);
     return withId;
   }
