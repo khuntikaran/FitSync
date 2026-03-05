@@ -68,6 +68,10 @@ export async function submitMeasurementForm(input: MeasurementFormInput): Promis
   if (!input.userId.trim()) throw new Error('User id is required.');
 
   return MeasurementService.logMeasurement({
+export async function submitMeasurementForm(input: MeasurementFormInput): Promise<BodyMeasurement> {
+  if (!input.userId.trim()) throw new Error('User id is required.');
+
+  const measurement = await MeasurementService.logMeasurement({
     userId: input.userId,
     date: normalizeDate(input.date),
     weightKg: optionalMetric(input.weightKg, 'Weight'),
@@ -80,6 +84,8 @@ export async function submitMeasurementForm(input: MeasurementFormInput): Promis
     shouldersCm: optionalMetric(input.shouldersCm, 'Shoulders'),
     notes: input.notes?.trim() || undefined,
   });
+
+  return measurement;
 }
 
 export async function submitPersonalRecordForm(input: PersonalRecordFormInput): Promise<PersonalRecord> {
@@ -106,6 +112,12 @@ export async function buildProgressChartPipeline(period: ProgressPeriod): Promis
 
   const weightTrend = ProgressService.buildWeightTrend(measurements);
   const volumeThreshold = buildVolumeThreshold(period);
+  const volumeThreshold = (() => {
+    if (period === 'all') return null;
+    const now = new Date();
+    const days = period === 'week' ? 7 : period === 'month' ? 30 : 365;
+    return new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+  })();
 
   const volumeLine = workouts
     .slice()
@@ -132,6 +144,10 @@ export async function buildProgressChartPipeline(period: ProgressPeriod): Promis
     .slice()
     .sort((a, b) => a.date.localeCompare(b.date))
     .map((record) => ({ x: record.date, y: record.value }));
+  const recordBar = records
+    .filter((record) => record.isActive)
+    .sort((a, b) => a.exerciseName.localeCompare(b.exerciseName))
+    .map((record) => ({ x: record.exerciseName, y: record.value }));
 
   return {
     weightLine: weightTrend.map((point) => ({ x: point.date, y: point.weightKg })),
@@ -140,5 +156,6 @@ export async function buildProgressChartPipeline(period: ProgressPeriod): Promis
     muscleGroupBar,
     workoutFrequencyBar,
     recordTimelineLine,
+    recordBar,
   };
 }

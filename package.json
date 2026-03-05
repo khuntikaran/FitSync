@@ -10,6 +10,9 @@
     "test:coverage": "vitest run --coverage",
     "test:ci": "npm run typecheck && vitest run --coverage",
     "release:check": "node scripts/releaseReadinessCheck.mjs"
+    "test:ci": "npm run typecheck && vitest run --coverage"
+    "test:coverage": "vitest run --coverage"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "zustand": "^4.4.6"
