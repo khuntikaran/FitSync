@@ -1,3 +1,4 @@
+import { EXERCISES } from '../../constants/exercises';
 import { BodyMeasurementRepository } from '../../database/repositories/BodyMeasurementRepository';
 import { PersonalRecordRepository } from '../../database/repositories/PersonalRecordRepository';
 import { WorkoutRepository } from '../../database/repositories/WorkoutRepository';
@@ -36,6 +37,9 @@ export interface ProgressChartPipeline {
   weightLine: Array<{ x: string; y: number }>;
   volumeLine: Array<{ x: string; y: number }>;
   recordBar: Array<{ x: string; y: number }>;
+  muscleGroupBar: Array<{ x: string; y: number }>;
+  workoutFrequencyBar: Array<{ x: string; y: number }>;
+  recordTimelineLine: Array<{ x: string; y: number }>;
 }
 
 function normalizeDate(value?: string): string {
@@ -53,6 +57,17 @@ function optionalMetric(value: number | undefined, label: string): number | unde
   return value;
 }
 
+function buildVolumeThreshold(period: ProgressPeriod): Date | null {
+  if (period === 'all') return null;
+  const now = new Date();
+  const days = period === 'week' ? 7 : period === 'month' ? 30 : 365;
+  return new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+}
+
+export async function submitMeasurementForm(input: MeasurementFormInput): Promise<BodyMeasurement> {
+  if (!input.userId.trim()) throw new Error('User id is required.');
+
+  return MeasurementService.logMeasurement({
 export async function submitMeasurementForm(input: MeasurementFormInput): Promise<BodyMeasurement> {
   if (!input.userId.trim()) throw new Error('User id is required.');
 
@@ -96,6 +111,7 @@ export async function buildProgressChartPipeline(period: ProgressPeriod): Promis
   ]);
 
   const weightTrend = ProgressService.buildWeightTrend(measurements);
+  const volumeThreshold = buildVolumeThreshold(period);
   const volumeThreshold = (() => {
     if (period === 'all') return null;
     const now = new Date();
@@ -111,6 +127,23 @@ export async function buildProgressChartPipeline(period: ProgressPeriod): Promis
     )
     .map((workout) => ({ x: workout.date, y: workout.totalVolumeKg }));
 
+  const activeRecords = records
+    .filter((record) => record.isActive)
+    .sort((a, b) => a.exerciseName.localeCompare(b.exerciseName));
+
+  const muscleGroupBar = ProgressService.summarizeVolumeByMuscleGroup(workouts, EXERCISES, period)
+    .slice(0, 8)
+    .map((entry) => ({ x: entry.muscleGroup, y: entry.volumeKg }));
+
+  const workoutFrequencyBar = ProgressService.summarizeWorkoutFrequency(workouts, period).map((entry) => ({
+    x: entry.date,
+    y: entry.workouts,
+  }));
+
+  const recordTimelineLine = activeRecords
+    .slice()
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((record) => ({ x: record.date, y: record.value }));
   const recordBar = records
     .filter((record) => record.isActive)
     .sort((a, b) => a.exerciseName.localeCompare(b.exerciseName))
@@ -119,6 +152,10 @@ export async function buildProgressChartPipeline(period: ProgressPeriod): Promis
   return {
     weightLine: weightTrend.map((point) => ({ x: point.date, y: point.weightKg })),
     volumeLine,
+    recordBar: activeRecords.map((record) => ({ x: record.exerciseName, y: record.value })),
+    muscleGroupBar,
+    workoutFrequencyBar,
+    recordTimelineLine,
     recordBar,
   };
 }

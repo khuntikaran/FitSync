@@ -63,6 +63,7 @@ describe('progress forms and chart pipeline', () => {
       endTime: '2026-03-01T11:00:00.000Z',
       name: 'Push',
       workoutType: 'push',
+      exercises: [{ id: 'we1', exerciseId: 'barbell_bench_press', exerciseName: 'Barbell Bench Press', sets: [], restTimeSeconds: 90, orderIndex: 0 }],
       exercises: [],
       totalCaloriesBurned: 300,
       totalVolumeKg: 1200,
@@ -84,5 +85,8 @@ describe('progress forms and chart pipeline', () => {
     expect(chart.weightLine).toEqual([{ x: '2026-03-01', y: 80 }]);
     expect(chart.volumeLine).toEqual([{ x: '2026-03-01', y: 1200 }]);
     expect(chart.recordBar).toEqual([{ x: 'Bench Press', y: 105 }]);
+    expect(chart.muscleGroupBar.length).toBeGreaterThan(0);
+    expect(chart.workoutFrequencyBar).toEqual([{ x: '2026-03-01', y: 1 }]);
+    expect(chart.recordTimelineLine).toEqual([{ x: '2026-03-01', y: 105 }]);
   });
 });
