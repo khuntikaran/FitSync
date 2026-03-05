@@ -29,7 +29,7 @@ export class PersonalRecordRepository {
   }
 
   static async getAll(): Promise<PersonalRecord[]> {
-    return PersonalRecordRepository.records;
+    return [...PersonalRecordRepository.records];
   }
 
   static async getActiveByExercise(exerciseId: string): Promise<PersonalRecord | null> {

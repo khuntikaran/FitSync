@@ -24,10 +24,6 @@ interface WorkoutState {
 }
 
 export const useWorkoutStore = create<WorkoutState>((set, get) => ({
-const id = () => `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-
-export const useWorkoutStore = create<WorkoutState>((set, get) => ({
-export const useWorkoutStore = create<WorkoutState>((set) => ({
   activeWorkout: null,
   restTimer: { isRunning: false, timeRemaining: 0, totalTime: 0 },
 
@@ -37,12 +33,6 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
       id: createId('workout'),
       date: toIsoDate(now),
       startTime: now.toISOString(),
-    const today = new Date();
-    const date = today.toISOString().split('T')[0];
-    const newWorkout: WorkoutSession = {
-      id: id(),
-      date,
-      startTime: today.toISOString(),
       name: template?.name ?? 'Custom Workout',
       workoutType: template?.workoutType ?? 'custom',
       templateId: template?.id,
@@ -70,11 +60,6 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
               exerciseName: exercise.name,
               sets: [],
               restTimeSeconds: AppConfig.defaultRestTimeSeconds,
-              id: id(),
-              exerciseId: exercise.id,
-              exerciseName: exercise.name,
-              sets: [],
-              restTimeSeconds: 90,
               orderIndex: state.activeWorkout.exercises.length,
             },
           ],
@@ -94,7 +79,6 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
               ? {
                   ...exercise,
                   sets: [...exercise.sets, { ...incomingSet, id: createId('set') }],
-                  sets: [...exercise.sets, { ...incomingSet, id: id() }],
                 }
               : exercise
           ),
@@ -147,5 +131,4 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
 
   cancelWorkout: () =>
     set({ activeWorkout: null, restTimer: { isRunning: false, timeRemaining: 0, totalTime: 0 } }),
-  cancelWorkout: () => set({ activeWorkout: null, restTimer: { isRunning: false, timeRemaining: 0, totalTime: 0 } }),
 }));

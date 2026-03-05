@@ -34,7 +34,7 @@ export class BodyMeasurementRepository {
   }
 
   static async getAll(): Promise<BodyMeasurement[]> {
-    return BodyMeasurementRepository.measurements;
+    return [...BodyMeasurementRepository.measurements];
   }
 
   static async replaceAll(measurements: BodyMeasurement[]): Promise<void> {
