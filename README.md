@@ -34,6 +34,7 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - PR/measurement form handlers and progress chart pipeline in `src/screens/progress/formsAndCharts.ts`
 - Richer progress analytics data sources (muscle-group volume + workout frequency) for charts in `src/services/progress/ProgressService.ts`
 - Comprehensive Vitest unit/integration test suite with coverage and CI script (`test`, `test:coverage`, `test:ci`)
+- iOS/Android native project scaffolding (`ios/FitSync.xcodeproj`, `android/*`) with release prep checklist in `docs/release-prep.md`
 - iOS/Android shell asset + config templates (`src/assets/app`, `ios/Info.plist`, `android/AndroidManifest.xml`) with release prep checklist in `docs/release-prep.md`
 - Publish readiness artifacts (`.env.example`, `babel.config.js`, `metro.config.js`, release check script, and store checklists)
 
@@ -44,6 +45,10 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 2. Run type checks: `npm run typecheck`
 3. Run test suite: `npm test`
 4. Run release scaffold checks: `npm run release:check`
+5. Install CocoaPods deps: `npm run ios:pods` (macOS only)
+6. For Android runtime: `npm run android` (requires Android SDK, adb, and emulator/device)
+7. For iOS runtime: `npm run ios` (requires macOS + Xcode + simulator/device)
+8. Build release AAB: `npm run android:bundle`
 5. For Android runtime: `npm run android` (requires Android SDK, adb, and emulator/device)
 6. For iOS runtime: `npm run ios` (requires a full iOS React Native project + Xcode setup)
 - PR/measurement form handlers and progress chart pipeline in `src/screens/progress/formsAndCharts.ts`
