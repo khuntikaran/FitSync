@@ -2,6 +2,9 @@ import React, { useMemo, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { HomeVisualScreen } from './screens/main/HomeVisualScreen';
 import { WorkoutVisualScreen } from './screens/workout/WorkoutVisualScreen';
@@ -49,6 +52,20 @@ export default function AppEntry() {
           <RootStack.Screen name={ROOT_STACK_ROUTES.ONBOARDING} component={OnboardingVisualScreen} />
           <RootStack.Screen name={ROOT_STACK_ROUTES.MAIN_TABS} component={MainTabs} />
         </RootStack.Navigator>
+
+const Tab = createBottomTabNavigator();
+
+export default function AppEntry() {
+  return (
+    <PaperProvider>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={HomeVisualScreen} />
+          <Tab.Screen name="Workout" component={WorkoutVisualScreen} />
+          <Tab.Screen name="History" component={HistoryVisualScreen} />
+          <Tab.Screen name="Progress" component={ProgressVisualScreen} />
+          <Tab.Screen name="Settings" component={SettingsVisualScreen} />
+        </Tab.Navigator>
       </NavigationContainer>
     </PaperProvider>
   );

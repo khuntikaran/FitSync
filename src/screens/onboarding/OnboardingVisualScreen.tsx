@@ -32,6 +32,19 @@ export function OnboardingVisualScreen({ navigation }: { navigation: NavLike }) 
           <TextInput value={weightKg} onChangeText={setWeightKg} keyboardType="number-pad" style={{ backgroundColor: '#fff', padding: 8 }} />
         </View>
       </Inline>
+import React, { useState } from 'react';
+import { TextInput } from 'react-native';
+import { Text } from 'react-native-paper';
+import { ScreenFrame, PrimaryAction } from '../../components/common/VisualComponents';
+import { submitOnboarding } from './onboardingScreen';
+
+export function OnboardingVisualScreen() {
+  const [age, setAge] = useState('30');
+  const [status, setStatus] = useState('Fill profile and submit.');
+
+  return (
+    <ScreenFrame title="Onboarding">
+      <TextInput value={age} onChangeText={setAge} keyboardType="number-pad" style={{ backgroundColor: '#fff', padding: 8 }} />
       <PrimaryAction
         label="Complete Onboarding"
         onPress={async () => {
@@ -45,6 +58,11 @@ export function OnboardingVisualScreen({ navigation }: { navigation: NavLike }) 
             });
             setStatus('Onboarding completed. Redirecting...');
             navigation.replace(ROOT_STACK_ROUTES.MAIN_TABS);
+              heightCm: 180,
+              weightKg: 80,
+              activityLevel: 'moderate',
+            });
+            setStatus('Onboarding completed.');
           } catch (error) {
             setStatus((error as Error).message);
           }

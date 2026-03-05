@@ -14,6 +14,13 @@ export function HistoryVisualScreen() {
       setSummary(view.description ?? 'No history');
       setItems((view.sections[0]?.items as WorkoutHistoryItem[] | undefined) ?? []);
     });
+import { ScreenFrame } from '../../components/common/VisualComponents';
+
+export function HistoryVisualScreen() {
+  const [summary, setSummary] = useState('Loading...');
+
+  useEffect(() => {
+    buildHistoryScreenView().then((view) => setSummary(view.description ?? 'No history'));
   }, []);
 
   return (

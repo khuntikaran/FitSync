@@ -7,6 +7,9 @@
 - [ ] `npm run release:check`
 - [ ] `npm run android:bundle`
 - [ ] `npm run ios:pods`
+- [ ] `npm run typecheck`
+- [ ] `npm run test:ci`
+- [ ] `npm run release:check`
 - [ ] Run smoke tests on one Android and one iOS device.
 
 ## 2) Android publishing
@@ -20,6 +23,14 @@
 - [ ] Replace placeholder app icon / launch assets in Xcode asset catalog.
 - [ ] Run `npm run ios:pods` and open `ios/FitSync.xcworkspace`.
 - [ ] Configure bundle id, signing certificates and provisioning profiles.
+- [ ] Configure release signing keystore and CI secrets.
+- [ ] Verify `POST_NOTIFICATIONS` runtime flow (Android 13+).
+- [ ] Build release AAB and run internal test track rollout.
+
+## 3) iOS publishing
+- [ ] Replace placeholder app icon / launch assets.
+- [ ] Configure bundle id, signing certificates and provisioning profiles.
+- [ ] Verify notification permissions and copy.
 - [ ] Archive in Xcode and validate with TestFlight.
 
 ## 4) Store listing

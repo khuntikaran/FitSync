@@ -1,4 +1,5 @@
 import { BodyMeasurement, Exercise, MuscleGroup, WorkoutSession } from '../../types';
+import { BodyMeasurement, WorkoutSession } from '../../types';
 
 export interface WeeklyVolumeSummary {
   totalVolumeKg: number;
