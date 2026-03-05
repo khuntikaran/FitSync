@@ -12,6 +12,10 @@
     "release:check": "node scripts/releaseReadinessCheck.mjs",
     "android": "react-native run-android",
     "ios": "react-native run-ios"
+    "release:check": "node scripts/releaseReadinessCheck.mjs"
+    "test:ci": "npm run typecheck && vitest run --coverage"
+    "test:coverage": "vitest run --coverage"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "zustand": "^4.4.6",
@@ -43,5 +47,6 @@
     "@types/react-native": "^0.72.6",
     "@types/uuid": "^9.0.7",
     "@types/lodash": "^4.14.202"
+    "vitest": "^4.0.18"
   }
 }
