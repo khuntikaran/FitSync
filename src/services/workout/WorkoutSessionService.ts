@@ -6,6 +6,9 @@ import { diffInSeconds } from '../../utils/date';
 function validateSession(session: WorkoutSession): void {
   if (!session.name.trim()) throw new Error('Workout name is required.');
   if (!session.startTime) throw new Error('Workout start time is required.');
+  if (Number.isNaN(Date.parse(session.startTime))) {
+    throw new Error('Workout start time must be a valid ISO datetime.');
+  }
 }
 
 export class WorkoutSessionService {
@@ -18,6 +21,7 @@ export class WorkoutSessionService {
 
     return {
       ...session,
+      name: session.name.trim(),
       endTime,
       totalVolumeKg,
       totalDurationSeconds,

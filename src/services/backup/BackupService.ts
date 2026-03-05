@@ -20,6 +20,14 @@ function isNullableObject(value: unknown): value is Record<string, unknown> | nu
   return value === null || (typeof value === 'object' && !Array.isArray(value));
 }
 
+
+function isArrayOfObjects(value: unknown): value is Record<string, unknown>[] {
+  return (
+    Array.isArray(value) &&
+    value.every((item) => item !== null && typeof item === 'object' && !Array.isArray(item))
+  );
+}
+
 export interface ExportData {
   version: BackupVersion;
   exportDate: string;
@@ -64,6 +72,11 @@ export class BackupService {
     return (
       candidate.version === AppConfig.backupVersion &&
       isIsoDateString(candidate.exportDate) &&
+      isArrayOfObjects(candidate.workouts) &&
+      isArrayOfObjects(candidate.measurements) &&
+      isArrayOfObjects(candidate.records) &&
+      isNullableObject(candidate.user) &&
+      hasValidAppSettings
       Array.isArray(candidate.workouts) &&
       Array.isArray(candidate.measurements) &&
       Array.isArray(candidate.records) &&
@@ -82,6 +95,7 @@ export class BackupService {
       throw new Error('Invalid backup payload');
     }
 
+    const data = normalizeImportPayload(payload);
     const data = normalizeImportPayload(payload as ImportData);
     const data = payload as ExportData;
 
