@@ -28,14 +28,6 @@ export const EXERCISES: Exercise[] = [
     tips: ['Avoid excessive back arch.'],
   },
   {
-    instructions: [
-      'Lie flat on bench with eyes under bar.',
-      'Lower to mid-chest with control.',
-      'Press up to full lockout.',
-    ],
-    tips: ['Keep wrists stacked over elbows.'],
-  },
-  {
     id: 'deadlift',
     name: 'Barbell Deadlift',
     category: 'pull',
@@ -174,17 +166,12 @@ export const WORKOUT_TEMPLATES: WorkoutTemplate[] = [
     workoutType: 'push',
     description: 'Chest, shoulders, triceps focus.',
     exercises: [{ exerciseId: 'barbell_bench_press', defaultSets: 4, defaultReps: 8, restTimeSeconds: 120 }],
-    description: 'Chest, shoulders, triceps.',
-    exercises: [
-      { exerciseId: 'barbell_bench_press', defaultSets: 4, defaultReps: 8, restTimeSeconds: 120 },
-    ],
   },
   {
     id: 'template_pull',
     name: 'Pull Day',
     workoutType: 'pull',
     description: 'Back and biceps focus.',
-    description: 'Back and biceps.',
     exercises: [{ exerciseId: 'deadlift', defaultSets: 3, defaultReps: 5, restTimeSeconds: 180 }],
   },
   {
@@ -262,7 +249,3 @@ export const WORKOUT_TEMPLATES: WorkoutTemplate[] = [
 export function getWorkoutTemplateByType(type: WorkoutTemplate['workoutType']): WorkoutTemplate | undefined {
   return WORKOUT_TEMPLATES.find((template) => template.workoutType === type);
 }
-    description: 'Complete lower-body training.',
-    exercises: [{ exerciseId: 'squat', defaultSets: 4, defaultReps: 8, restTimeSeconds: 180 }],
-  },
-];
