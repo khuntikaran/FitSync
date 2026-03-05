@@ -42,6 +42,7 @@ describe('WorkoutRepository + DashboardService integration', () => {
     expect(secondRead.map((w) => w.id)).toEqual(['immutable-check']);
   });
 
+ main
   it('builds dashboard summary from repository workouts', async () => {
     await WorkoutRepository.save(
       session({

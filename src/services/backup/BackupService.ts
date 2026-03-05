@@ -77,6 +77,16 @@ export class BackupService {
       isArrayOfObjects(candidate.records) &&
       isNullableObject(candidate.user) &&
       hasValidAppSettings
+      Array.isArray(candidate.workouts) &&
+      Array.isArray(candidate.measurements) &&
+      Array.isArray(candidate.records) &&
+      isNullableObject(candidate.user) &&
+      hasValidAppSettings
+      typeof candidate.exportDate === 'string' &&
+      Array.isArray(candidate.workouts) &&
+      Array.isArray(candidate.measurements) &&
+      Array.isArray(candidate.records) &&
+      isStringRecord(candidate.appSettings)
     );
   }
 
@@ -86,6 +96,8 @@ export class BackupService {
     }
 
     const data = normalizeImportPayload(payload);
+    const data = normalizeImportPayload(payload as ImportData);
+    const data = payload as ExportData;
 
     if (data.user) {
       await UserRepository.save(data.user);
