@@ -55,5 +55,6 @@ export class BackupService {
     await PersonalRecordRepository.replaceAll(data.records);
 
     return true;
+    return candidate.version === '1.0' && typeof candidate.exportDate === 'string';
   }
 }

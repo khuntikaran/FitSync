@@ -16,6 +16,15 @@ export class WorkoutSessionService {
     const totalVolumeKg = WorkoutAnalyticsService.calculateSessionVolume(session);
     const totalDurationSeconds = diffInSeconds(session.startTime, endTime);
 
+export class WorkoutSessionService {
+  static finalize(session: WorkoutSession): WorkoutSession {
+    const endTime = new Date().toISOString();
+    const totalVolumeKg = WorkoutAnalyticsService.calculateSessionVolume(session);
+    const totalDurationSeconds = Math.max(
+      0,
+      Math.round((new Date(endTime).getTime() - new Date(session.startTime).getTime()) / 1000)
+    );
+
     return {
       ...session,
       endTime,
