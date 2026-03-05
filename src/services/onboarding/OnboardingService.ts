@@ -3,6 +3,7 @@ import { UserRepository } from '../../database/repositories/UserRepository';
 import { ActivityLevel, Gender, UserProfile } from '../../types';
 import { createId } from '../../utils/id';
 import { AppConfig } from '../../constants/config';
+import { assertInRange, assertPositive } from '../../utils/validation';
 
 interface OnboardingInput {
   age: number;
@@ -13,6 +14,17 @@ interface OnboardingInput {
   unitSystem?: 'metric' | 'imperial';
 }
 
+function validateOnboardingInput(input: OnboardingInput): void {
+  assertInRange(input.age, 'Age', 13, 100);
+  assertPositive(input.heightCm, 'Height');
+  assertPositive(input.weightKg, 'Weight');
+
+  if (input.heightCm > 300) {
+    throw new Error('Height must be a positive number under 300 cm.');
+  }
+
+  if (input.weightKg > 500) {
+    throw new Error('Weight must be a positive number under 500 kg.');
 const generateId = () => `user-${Date.now()}`;
 
 function validateOnboardingInput(input: OnboardingInput): void {
