@@ -25,6 +25,25 @@ function validateOnboardingInput(input: OnboardingInput): void {
 
   if (input.weightKg > 500) {
     throw new Error('Weight must be a positive number under 500 kg.');
+const generateId = () => `user-${Date.now()}`;
+
+function validateOnboardingInput(input: OnboardingInput): void {
+  if (!Number.isFinite(input.age) || input.age < 13 || input.age > 100) {
+    throw new Error('Age must be between 13 and 100.');
+  }
+
+  if (!Number.isFinite(input.heightCm) || input.heightCm <= 0 || input.heightCm > 300) {
+    throw new Error('Height must be a positive number under 300 cm.');
+  }
+
+  if (!Number.isFinite(input.weightKg) || input.weightKg <= 0 || input.weightKg > 500) {
+    throw new Error('Weight must be a positive number under 500 kg.');
+  if (!Number.isFinite(input.heightCm) || input.heightCm <= 0) {
+    throw new Error('Height must be a positive number.');
+  }
+
+  if (!Number.isFinite(input.weightKg) || input.weightKg <= 0) {
+    throw new Error('Weight must be a positive number.');
   }
 }
 
@@ -43,6 +62,7 @@ export class OnboardingService {
 
     return {
       id: createId('user'),
+      id: generateId(),
       age: input.age,
       gender: input.gender,
       heightCm: input.heightCm,
@@ -51,6 +71,7 @@ export class OnboardingService {
       bmr,
       tdee,
       unitSystem: input.unitSystem ?? AppConfig.unitSystem.default,
+      unitSystem: input.unitSystem ?? 'metric',
     };
   }
 

@@ -7,8 +7,10 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - TypeScript project scaffolding (`package.json`, `tsconfig.json`)
 - Domain model types in `src/types`
 - Scientific calculation service in `src/services/calculations/CalorieCalculator.ts`
-- Unit conversion helpers plus shared ID/date/validation utilities in `src/utils`
+- Unit conversion helpers plus shared ID/date utilities in `src/utils`
 - Theming constants and app config in `src/constants`
+- Unit conversion helpers in `src/utils/unitConversion.ts`
+- Theming constants in `src/constants/colors.ts`
 - SQLite schema string in `src/database/schema.ts`
 - Zustand stores for user/workout workflows in `src/store`
 
@@ -17,18 +19,32 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - App bootstrap entrypoint `bootstrapApp()` in `src/App.ts`
 - Database adapter service + transaction wrapper in `src/database/connection.ts`
 - Migration runner in `src/database/migrations/runMigrations.ts`
-- Repositories for users, workouts, exercises, personal records, body measurements, and app settings in `src/database/repositories`
+- Repositories for users, workouts, exercises, personal records, and body measurements in `src/database/repositories`
 - Database seed flow in `src/services/seed/seedDatabase.ts`
 - Onboarding profile assembly + validation + persistence in `src/services/onboarding/OnboardingService.ts`
 - Workout analytics/finalization/history/progress helpers in `src/services/analytics`, `src/services/workout`, and `src/services/progress`
 - Measurement and PR domain services in `src/services/measurements/MeasurementService.ts` and `src/services/records/PersonalRecordService.ts`
-- Settings preferences service in `src/services/settings/SettingsService.ts`
-- Dashboard summary aggregation (including streak + weekly/monthly volume) in `src/services/dashboard/DashboardService.ts`
+- Dashboard summary aggregation in `src/services/dashboard/DashboardService.ts`
 - Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
-- Backup export/import payload helpers (transactional import orchestration, settings included) in `src/services/backup/BackupService.ts`
+- Backup export/import payload helpers in `src/services/backup/BackupService.ts`
 - Notification service abstraction with pluggable adapter in `src/services/notifications/NotificationService.ts`
 - React Native SQLite adapter boundary scaffold in `src/database/adapters/reactNativeSQLiteAdapter.ts`
 - Navigation route ordering config and main screen placeholders
+- Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
+- Repositories for users, workouts, and exercises in `src/database/repositories`
+- Database seed flow in `src/services/seed/seedDatabase.ts`
+- Onboarding profile assembly + validation + persistence in `src/services/onboarding/OnboardingService.ts`
+- Workout analytics helpers in `src/services/analytics/WorkoutAnalyticsService.ts`
+- Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
+- Workout finalization service in `src/services/workout/WorkoutSessionService.ts`
+- Progress summarization service in `src/services/progress/ProgressService.ts`
+- Backup export payload builder and validator in `src/services/backup/BackupService.ts`
+- Notification service abstraction with pluggable adapter in `src/services/notifications/NotificationService.ts`
+- React Native SQLite adapter boundary scaffold in `src/database/adapters/reactNativeSQLiteAdapter.ts`
+- Navigation route ordering config and main screen placeholders
+- Seed exercise/template constants in `src/constants/exercises.ts`
+- SQLite schema string in `src/database/schema.ts`
+- Initial Zustand stores for user/workout workflows in `src/store`
 
 ## Planned architecture (target)
 
@@ -54,4 +70,10 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 2. Build React Native screen components and connect to stores/services.
 3. Expand exercise seed data to full 150+ library and add images.
 4. Add unit tests once package registry access allows installing dependencies.
-5. Build PR/measurement/settings UI forms and chart rendering pipeline.
+5. Build PR/measurement UI forms and chart rendering pipeline.
+5. Add body measurements/PR repositories and richer progress chart data sources.
+1. Add React Native app bootstrap and navigation shell.
+2. Wire SQLite connection + migration runner around `CREATE_TABLES`.
+3. Implement repository layer and seed script for 150+ exercises.
+4. Build onboarding screens and connect BMR/TDEE flow.
+5. Build active workout tracking screen with rest timer integration.

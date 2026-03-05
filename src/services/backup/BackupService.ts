@@ -2,8 +2,6 @@ import { BodyMeasurementRepository } from '../../database/repositories/BodyMeasu
 import { PersonalRecordRepository } from '../../database/repositories/PersonalRecordRepository';
 import { UserRepository } from '../../database/repositories/UserRepository';
 import { WorkoutRepository } from '../../database/repositories/WorkoutRepository';
-import { DatabaseService } from '../../database/connection';
-import { AppSettingsRepository } from '../../database/repositories/AppSettingsRepository';
 
 export interface ExportData {
   version: '1.0';
@@ -12,7 +10,6 @@ export interface ExportData {
   workouts: Awaited<ReturnType<typeof WorkoutRepository.getAll>>;
   measurements: Awaited<ReturnType<typeof BodyMeasurementRepository.getAll>>;
   records: Awaited<ReturnType<typeof PersonalRecordRepository.getAll>>;
-  settings: Awaited<ReturnType<typeof AppSettingsRepository.getAll>>;
 }
 
 export class BackupService {
@@ -24,7 +21,6 @@ export class BackupService {
       workouts: await WorkoutRepository.getAll(),
       measurements: await BodyMeasurementRepository.getAll(),
       records: await PersonalRecordRepository.getAll(),
-      settings: await AppSettingsRepository.getAll(),
     };
   }
 
@@ -37,9 +33,7 @@ export class BackupService {
       typeof candidate.exportDate === 'string' &&
       Array.isArray(candidate.workouts) &&
       Array.isArray(candidate.measurements) &&
-      Array.isArray(candidate.records) &&
-      !!candidate.settings &&
-      typeof candidate.settings === 'object'
+      Array.isArray(candidate.records)
     );
   }
 
@@ -50,19 +44,17 @@ export class BackupService {
 
     const data = payload;
 
-    await DatabaseService.transaction(async () => {
-      if (data.user) {
-        await UserRepository.save(data.user);
-      } else {
-        await UserRepository.clear();
-      }
+    if (data.user) {
+      await UserRepository.save(data.user);
+    } else {
+      await UserRepository.clear();
+    }
 
-      await WorkoutRepository.replaceAll(data.workouts);
-      await BodyMeasurementRepository.replaceAll(data.measurements);
-      await PersonalRecordRepository.replaceAll(data.records);
-      await AppSettingsRepository.replaceAll(data.settings);
-    });
+    await WorkoutRepository.replaceAll(data.workouts);
+    await BodyMeasurementRepository.replaceAll(data.measurements);
+    await PersonalRecordRepository.replaceAll(data.records);
 
     return true;
+    return candidate.version === '1.0' && typeof candidate.exportDate === 'string';
   }
 }
