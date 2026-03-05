@@ -1,0 +1,86 @@
+import { Exercise, WorkoutTemplate } from '../types';
+
+export const EXERCISES: Exercise[] = [
+  {
+    id: 'barbell_bench_press',
+    name: 'Barbell Bench Press',
+    category: 'push',
+    primaryMuscles: ['chest'],
+    secondaryMuscles: ['triceps', 'front_delts'],
+    equipment: 'barbell',
+    metValue: 6.0,
+    difficulty: 'intermediate',
+    description: 'Compound chest exercise using barbell.',
+    instructions: [
+      'Lie flat on bench with eyes under bar.',
+      'Lower to mid-chest with control.',
+      'Press up to full lockout.',
+    ],
+    tips: ['Keep wrists stacked over elbows.'],
+  },
+  {
+    id: 'deadlift',
+    name: 'Barbell Deadlift',
+    category: 'pull',
+    primaryMuscles: ['lower_back', 'hamstrings', 'glutes'],
+    secondaryMuscles: ['traps', 'lats', 'forearms'],
+    equipment: 'barbell',
+    metValue: 8.0,
+    difficulty: 'advanced',
+    description: 'Heavy posterior-chain compound.',
+    instructions: ['Brace core.', 'Keep neutral spine.', 'Drive through floor.'],
+    tips: ['Keep bar path close to shins.'],
+  },
+  {
+    id: 'squat',
+    name: 'Barbell Back Squat',
+    category: 'legs',
+    primaryMuscles: ['quads', 'glutes'],
+    secondaryMuscles: ['hamstrings', 'core', 'lower_back'],
+    equipment: 'barbell',
+    metValue: 6.5,
+    difficulty: 'intermediate',
+    description: 'Foundational lower-body exercise.',
+    instructions: ['Brace and descend.', 'Reach depth.', 'Drive to stand.'],
+    tips: ['Knees track with toes.'],
+  },
+  {
+    id: 'running',
+    name: 'Running (6 mph)',
+    category: 'cardio',
+    primaryMuscles: ['cardio'],
+    secondaryMuscles: ['quads', 'hamstrings', 'calves'],
+    equipment: 'bodyweight',
+    metValue: 9.8,
+    difficulty: 'intermediate',
+    description: 'Steady-state cardio effort.',
+    instructions: ['Maintain pace and breathing rhythm.'],
+    tips: ['Progress by pace or distance.'],
+  },
+];
+
+export const WORKOUT_TEMPLATES: WorkoutTemplate[] = [
+  {
+    id: 'template_push',
+    name: 'Push Day',
+    workoutType: 'push',
+    description: 'Chest, shoulders, triceps.',
+    exercises: [
+      { exerciseId: 'barbell_bench_press', defaultSets: 4, defaultReps: 8, restTimeSeconds: 120 },
+    ],
+  },
+  {
+    id: 'template_pull',
+    name: 'Pull Day',
+    workoutType: 'pull',
+    description: 'Back and biceps.',
+    exercises: [{ exerciseId: 'deadlift', defaultSets: 3, defaultReps: 5, restTimeSeconds: 180 }],
+  },
+  {
+    id: 'template_legs',
+    name: 'Leg Day',
+    workoutType: 'legs',
+    description: 'Complete lower-body training.',
+    exercises: [{ exerciseId: 'squat', defaultSets: 4, defaultReps: 8, restTimeSeconds: 180 }],
+  },
+];
