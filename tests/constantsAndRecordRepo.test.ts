@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { EXERCISE_IMAGE_ASSETS, EXERCISES, getWorkoutTemplateByType } from '../src/constants/exercises';
+import { getWorkoutTemplateByType } from '../src/constants/exercises';
 import { PersonalRecordRepository } from '../src/database/repositories/PersonalRecordRepository';
 
 describe('Workout template constants', () => {
