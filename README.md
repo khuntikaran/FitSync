@@ -29,10 +29,13 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - React Native adapter boundaries and runtime wiring for SQLite, notifications, and file/share
 - Screen controllers for onboarding, home, workout, history, progress, and settings connected to stores/services
 - Visual screen view-model builders connected to screen controllers in `src/screens/*/*View.ts`
+- Local app API facade for screen/view/form orchestration in `src/api/localAppApi.ts`
+- App shell navigation controller hook for route/tab rendering in `src/hooks/useAppShell.ts`
 - PR/measurement form handlers and progress chart pipeline in `src/screens/progress/formsAndCharts.ts`
 - Richer progress analytics data sources (muscle-group volume + workout frequency) for charts in `src/services/progress/ProgressService.ts`
 - Comprehensive Vitest unit/integration test suite with coverage and CI script (`test`, `test:coverage`, `test:ci`)
 - iOS/Android shell asset + config templates (`src/assets/app`, `ios/Info.plist`, `android/AndroidManifest.xml`) with release prep checklist in `docs/release-prep.md`
+- Publish readiness artifacts (`.env.example`, `babel.config.js`, `metro.config.js`, release check script, and store checklists)
 - PR/measurement form handlers and progress chart pipeline in `src/screens/progress/formsAndCharts.ts`
 - Comprehensive Vitest unit/integration test suite with coverage and CI script (`test`, `test:coverage`, `test:ci`)
 - Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
@@ -83,6 +86,8 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 
 ## Next steps
 
+1. Replace placeholder assets/metadata with final brand and legal content, then run `npm run release:check`.
+2. Execute device-level smoke tests and submit Android AAB + iOS TestFlight build.
 No major checklist items remain from the current build plan.
 1. Build React Native visual screen components and connect them to screen controllers.
 3. Add richer progress chart data sources and deeper analytics visualizations.
