@@ -32,7 +32,6 @@ describe('WorkoutRepository + DashboardService integration', () => {
     expect(all[0].totalVolumeKg).toBe(200);
   });
 
-<<<<<<< codex/access-main-branch-and-resolve-conflicts-inmki0
   it('returns a copy from getAll to avoid external mutation of repository state', async () => {
     await WorkoutRepository.save(session({ id: 'immutable-check' }));
 
@@ -43,8 +42,7 @@ describe('WorkoutRepository + DashboardService integration', () => {
     expect(secondRead.map((w) => w.id)).toEqual(['immutable-check']);
   });
 
-=======
->>>>>>> main
+ main
   it('builds dashboard summary from repository workouts', async () => {
     await WorkoutRepository.save(
       session({

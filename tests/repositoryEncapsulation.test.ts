@@ -1,11 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { BodyMeasurementRepository } from '../src/database/repositories/BodyMeasurementRepository';
 import { PersonalRecordRepository } from '../src/database/repositories/PersonalRecordRepository';
+import { UserRepository } from '../src/database/repositories/UserRepository';
 
 describe('Repository encapsulation', () => {
   beforeEach(async () => {
     await BodyMeasurementRepository.replaceAll([]);
     await PersonalRecordRepository.replaceAll([]);
+    await UserRepository.clear();
   });
 
   it('BodyMeasurementRepository.getAll returns a copy', async () => {
@@ -51,5 +53,26 @@ describe('Repository encapsulation', () => {
 
     const second = await PersonalRecordRepository.getAll();
     expect(second.map((r) => r.id)).toEqual(['r1']);
+  });
+
+  it('UserRepository returns cloned profile object to prevent external mutation', async () => {
+    await UserRepository.save({
+      id: 'user-1',
+      age: 30,
+      gender: 'male',
+      heightCm: 180,
+      weightKg: 80,
+      activityLevel: 'moderate',
+      bmr: 1750,
+      tdee: 2712,
+      unitSystem: 'metric',
+    });
+
+    const first = await UserRepository.get();
+    if (!first) throw new Error('Expected saved user profile');
+    first.age = 99;
+
+    const second = await UserRepository.get();
+    expect(second?.age).toBe(30);
   });
 });

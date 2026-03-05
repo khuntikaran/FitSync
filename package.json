@@ -6,12 +6,15 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
     "test:watch": "vitest"
   },
   "dependencies": {
     "zustand": "^4.4.6"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^4.0.18",
     "typescript": "^5.2.2",
     "vitest": "^4.0.18"
   }
