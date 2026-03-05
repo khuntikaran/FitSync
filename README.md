@@ -26,22 +26,29 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - Measurement and PR domain services in `src/services/measurements/MeasurementService.ts` and `src/services/records/PersonalRecordService.ts`
 - Dashboard summary aggregation in `src/services/dashboard/DashboardService.ts`
 - Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
+- Expanded exercise library to 150+ entries with category image asset mapping in `src/constants/exercises.ts`
 - Backup export/import payload helpers in `src/services/backup/BackupService.ts`
+- React Native push notification adapter wiring for rest timers in `src/services/notifications/adapters/reactNativePushNotificationAdapter.ts`
+- React Native file/share backup adapter wiring in `src/services/backup/adapters/reactNativeFileShareAdapter.ts`
 - Notification service abstraction with pluggable adapter in `src/services/notifications/NotificationService.ts`
 - React Native SQLite adapter boundary scaffold in `src/database/adapters/reactNativeSQLiteAdapter.ts`
 - Navigation route ordering config and main screen placeholders
+- Screen controllers for onboarding, home, workout, history, progress, and settings connected to stores/services
 - Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
+- Expanded exercise library to 150+ entries with category image asset mapping in `src/constants/exercises.ts`
 - Repositories for users, workouts, and exercises in `src/database/repositories`
 - Database seed flow in `src/services/seed/seedDatabase.ts`
 - Onboarding profile assembly + validation + persistence in `src/services/onboarding/OnboardingService.ts`
 - Workout analytics helpers in `src/services/analytics/WorkoutAnalyticsService.ts`
 - Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
+- Expanded exercise library to 150+ entries with category image asset mapping in `src/constants/exercises.ts`
 - Workout finalization service in `src/services/workout/WorkoutSessionService.ts`
 - Progress summarization service in `src/services/progress/ProgressService.ts`
 - Backup export payload builder and validator in `src/services/backup/BackupService.ts`
 - Notification service abstraction with pluggable adapter in `src/services/notifications/NotificationService.ts`
 - React Native SQLite adapter boundary scaffold in `src/database/adapters/reactNativeSQLiteAdapter.ts`
 - Navigation route ordering config and main screen placeholders
+- Screen controllers for onboarding, home, workout, history, progress, and settings connected to stores/services
 - Seed exercise/template constants in `src/constants/exercises.ts`
 - SQLite schema string in `src/database/schema.ts`
 - Initial Zustand stores for user/workout workflows in `src/store`
@@ -66,9 +73,6 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 
 ## Next steps
 
-1. Wire real React Native adapters (`react-native-sqlite-storage`, push notifications, file/share).
-2. Build React Native screen components and connect to stores/services.
-3. Expand exercise seed data to full 150+ library and add images.
 4. Add unit tests once package registry access allows installing dependencies.
 5. Build PR/measurement UI forms and chart rendering pipeline.
 5. Add body measurements/PR repositories and richer progress chart data sources.
