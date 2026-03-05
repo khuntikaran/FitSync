@@ -12,6 +12,14 @@ function isStringRecord(value: unknown): value is Record<string, string> {
   return Object.values(value).every((item) => typeof item === 'string');
 }
 
+function isIsoDateString(value: unknown): value is string {
+  return typeof value === 'string' && !Number.isNaN(Date.parse(value));
+}
+
+function isNullableObject(value: unknown): value is Record<string, unknown> | null {
+  return value === null || (typeof value === 'object' && !Array.isArray(value));
+}
+
 export interface ExportData {
   version: BackupVersion;
   exportDate: string;
@@ -20,6 +28,17 @@ export interface ExportData {
   measurements: Awaited<ReturnType<typeof BodyMeasurementRepository.getAll>>;
   records: Awaited<ReturnType<typeof PersonalRecordRepository.getAll>>;
   appSettings: Awaited<ReturnType<typeof AppSettingsRepository.getAll>>;
+}
+
+type ImportData = Omit<ExportData, 'appSettings'> & {
+  appSettings?: Awaited<ReturnType<typeof AppSettingsRepository.getAll>>;
+};
+
+function normalizeImportPayload(payload: ImportData): ExportData {
+  return {
+    ...payload,
+    appSettings: payload.appSettings ?? {},
+  };
 }
 
 export class BackupService {
@@ -35,12 +54,21 @@ export class BackupService {
     };
   }
 
-  static validateImportPayload(payload: unknown): payload is ExportData {
+  static validateImportPayload(payload: unknown): payload is ImportData {
     if (!payload || typeof payload !== 'object') return false;
 
-    const candidate = payload as Partial<ExportData>;
+    const candidate = payload as Partial<ImportData>;
+    const hasValidAppSettings =
+      typeof candidate.appSettings === 'undefined' || isStringRecord(candidate.appSettings);
+
     return (
       candidate.version === AppConfig.backupVersion &&
+      isIsoDateString(candidate.exportDate) &&
+      Array.isArray(candidate.workouts) &&
+      Array.isArray(candidate.measurements) &&
+      Array.isArray(candidate.records) &&
+      isNullableObject(candidate.user) &&
+      hasValidAppSettings
       typeof candidate.exportDate === 'string' &&
       Array.isArray(candidate.workouts) &&
       Array.isArray(candidate.measurements) &&
@@ -54,6 +82,7 @@ export class BackupService {
       throw new Error('Invalid backup payload');
     }
 
+    const data = normalizeImportPayload(payload as ImportData);
     const data = payload as ExportData;
 
     if (data.user) {
