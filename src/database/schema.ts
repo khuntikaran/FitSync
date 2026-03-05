@@ -80,7 +80,43 @@ CREATE TABLE IF NOT EXISTS exercise_sets (
     FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercises(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS personal_records (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    exercise_id TEXT NOT NULL,
+    exercise_name TEXT NOT NULL,
+    record_type TEXT NOT NULL CHECK(record_type IN ('weight', 'volume', 'one_rep_max', 'reps')),
+    value REAL NOT NULL,
+    previous_value REAL,
+    date TEXT NOT NULL,
+    workout_id TEXT NOT NULL,
+    is_active INTEGER DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (exercise_id) REFERENCES exercises(id),
+    FOREIGN KEY (workout_id) REFERENCES workout_sessions(id)
+);
+
+CREATE TABLE IF NOT EXISTS body_measurements (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    date TEXT NOT NULL,
+    weight_kg REAL,
+    body_fat_percentage REAL,
+    chest_cm REAL,
+    waist_cm REAL,
+    hips_cm REAL,
+    arms_cm REAL,
+    thighs_cm REAL,
+    shoulders_cm REAL,
+    notes TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 CREATE INDEX IF NOT EXISTS idx_workout_sessions_user_date ON workout_sessions(user_id, date);
 CREATE INDEX IF NOT EXISTS idx_workout_exercises_session ON workout_exercises(session_id);
 CREATE INDEX IF NOT EXISTS idx_exercise_sets_workout_exercise ON exercise_sets(workout_exercise_id);
+CREATE INDEX IF NOT EXISTS idx_personal_records_user_exercise ON personal_records(user_id, exercise_id);
+CREATE INDEX IF NOT EXISTS idx_body_measurements_user_date ON body_measurements(user_id, date);
 `;

@@ -126,3 +126,31 @@ export interface UserProfile {
   tdee: number;
   unitSystem: 'metric' | 'imperial';
 }
+
+export interface PersonalRecord {
+  id: string;
+  userId: string;
+  exerciseId: string;
+  exerciseName: string;
+  recordType: 'weight' | 'volume' | 'one_rep_max' | 'reps';
+  value: number;
+  previousValue?: number;
+  date: string;
+  workoutId: string;
+  isActive: boolean;
+}
+
+export interface BodyMeasurement {
+  id: string;
+  userId: string;
+  date: string;
+  weightKg?: number;
+  bodyFatPercentage?: number;
+  chestCm?: number;
+  waistCm?: number;
+  hipsCm?: number;
+  armsCm?: number;
+  thighsCm?: number;
+  shouldersCm?: number;
+  notes?: string;
+}
