@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
+import { EXERCISE_IMAGE_ASSETS, EXERCISES, getWorkoutTemplateByType } from '../src/constants/exercises';
 import { getWorkoutTemplateByType } from '../src/constants/exercises';
 import { PersonalRecordRepository } from '../src/database/repositories/PersonalRecordRepository';
 
@@ -9,6 +10,16 @@ describe('Workout template constants', () => {
 
     const custom = getWorkoutTemplateByType('custom' as never);
     expect(custom).toBeUndefined();
+  });
+
+
+  it('ships a 150+ exercise library with image assets', () => {
+    expect(EXERCISES.length).toBeGreaterThanOrEqual(150);
+    expect(Object.keys(EXERCISE_IMAGE_ASSETS).length).toBe(EXERCISES.length);
+
+    for (const exercise of EXERCISES) {
+      expect(EXERCISE_IMAGE_ASSETS[exercise.id]).toContain('assets/images/exercises/categories/');
+    }
   });
 });
 

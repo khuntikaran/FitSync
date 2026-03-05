@@ -1,4 +1,4 @@
-import { EXERCISES } from '../../constants/exercises';
+import { EXERCISE_IMAGE_ASSETS, EXERCISES } from '../../constants/exercises';
 import { Exercise } from '../../types';
 import { DatabaseService } from '../connection';
 
@@ -10,7 +10,7 @@ export class ExerciseRepository {
           `INSERT OR REPLACE INTO exercises (
             id, name, category, primary_muscles, secondary_muscles, equipment,
             met_value, difficulty, description, instructions, tips, is_favorite, image_asset
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, NULL);`,
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?);`,
           [
             exercise.id,
             exercise.name,
@@ -23,6 +23,7 @@ export class ExerciseRepository {
             exercise.description,
             JSON.stringify(exercise.instructions),
             JSON.stringify(exercise.tips),
+            EXERCISE_IMAGE_ASSETS[exercise.id] ?? null,
           ]
         );
       }

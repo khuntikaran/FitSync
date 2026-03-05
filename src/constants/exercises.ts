@@ -1,4 +1,91 @@
-import { Exercise, WorkoutTemplate } from '../types';
+import { Exercise, WorkoutTemplate, WorkoutCategory, MuscleGroup, Equipment } from '../types';
+
+type ExerciseCategory = Exclude<WorkoutCategory, 'custom'>;
+
+const CATEGORY_IMAGE_ASSET: Record<ExerciseCategory, string> = {
+  push: 'assets/images/exercises/categories/push.svg',
+  pull: 'assets/images/exercises/categories/pull.svg',
+  legs: 'assets/images/exercises/categories/legs.svg',
+  upper: 'assets/images/exercises/categories/upper.svg',
+  lower: 'assets/images/exercises/categories/lower.svg',
+  full_body: 'assets/images/exercises/categories/full_body.svg',
+  chest: 'assets/images/exercises/categories/chest.svg',
+  back: 'assets/images/exercises/categories/back.svg',
+  arms: 'assets/images/exercises/categories/arms.svg',
+  shoulders: 'assets/images/exercises/categories/shoulders.svg',
+  core: 'assets/images/exercises/categories/core.svg',
+  cardio: 'assets/images/exercises/categories/cardio.svg',
+};
+
+interface ExerciseSeedDefinition {
+  category: ExerciseCategory;
+  baseName: string;
+  primaryMuscles: MuscleGroup[];
+  secondaryMuscles: MuscleGroup[];
+  equipment: Equipment;
+  metValue: number;
+  difficulty: Exercise['difficulty'];
+}
+
+const EXERCISE_SEEDS: ExerciseSeedDefinition[] = [
+  { category: 'push', baseName: 'Barbell Bench Press', primaryMuscles: ['chest'], secondaryMuscles: ['triceps', 'front_delts'], equipment: 'barbell', metValue: 6.0, difficulty: 'intermediate' },
+  { category: 'pull', baseName: 'Barbell Deadlift', primaryMuscles: ['lower_back', 'hamstrings', 'glutes'], secondaryMuscles: ['traps', 'lats', 'forearms'], equipment: 'barbell', metValue: 8.0, difficulty: 'advanced' },
+  { category: 'legs', baseName: 'Back Squat', primaryMuscles: ['quads', 'glutes'], secondaryMuscles: ['hamstrings', 'core'], equipment: 'barbell', metValue: 6.5, difficulty: 'intermediate' },
+  { category: 'upper', baseName: 'Pull-Ups', primaryMuscles: ['lats'], secondaryMuscles: ['biceps', 'rhomboids'], equipment: 'bodyweight', metValue: 5.0, difficulty: 'intermediate' },
+  { category: 'lower', baseName: 'Romanian Deadlift', primaryMuscles: ['hamstrings', 'glutes'], secondaryMuscles: ['lower_back'], equipment: 'barbell', metValue: 6.0, difficulty: 'intermediate' },
+  { category: 'full_body', baseName: 'Dumbbell Thruster', primaryMuscles: ['quads', 'front_delts'], secondaryMuscles: ['glutes', 'core'], equipment: 'dumbbell', metValue: 7.0, difficulty: 'intermediate' },
+  { category: 'chest', baseName: 'Push-Ups', primaryMuscles: ['chest'], secondaryMuscles: ['triceps', 'front_delts'], equipment: 'bodyweight', metValue: 4.0, difficulty: 'beginner' },
+  { category: 'back', baseName: 'Barbell Row', primaryMuscles: ['lats', 'rhomboids'], secondaryMuscles: ['biceps', 'lower_back'], equipment: 'barbell', metValue: 6.0, difficulty: 'intermediate' },
+  { category: 'arms', baseName: 'Dumbbell Curl', primaryMuscles: ['biceps'], secondaryMuscles: ['forearms'], equipment: 'dumbbell', metValue: 3.0, difficulty: 'beginner' },
+  { category: 'shoulders', baseName: 'Overhead Press', primaryMuscles: ['front_delts'], secondaryMuscles: ['triceps', 'side_delts'], equipment: 'barbell', metValue: 5.0, difficulty: 'intermediate' },
+  { category: 'core', baseName: 'Plank', primaryMuscles: ['abs', 'core'], secondaryMuscles: ['glutes'], equipment: 'bodyweight', metValue: 3.0, difficulty: 'beginner' },
+  { category: 'cardio', baseName: 'Running', primaryMuscles: ['cardio'], secondaryMuscles: ['quads', 'hamstrings', 'calves'], equipment: 'bodyweight', metValue: 9.8, difficulty: 'intermediate' },
+];
+
+const TRAINING_VARIANTS = [
+  'Strength',
+  'Hypertrophy',
+  'Tempo',
+  'Paused',
+  'Explosive',
+  'Circuit',
+  'Endurance',
+  'Controlled',
+  'Technique',
+  'Power',
+  'Volume',
+  'Deload',
+  'Progression',
+] as const;
+
+function toId(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+}
+
+function buildExercise(seed: ExerciseSeedDefinition, variant: string): Exercise {
+  const name = `${seed.baseName} (${variant})`;
+  return {
+    id: toId(`${seed.category}_${seed.baseName}_${variant}`),
+    name,
+    category: seed.category,
+    primaryMuscles: seed.primaryMuscles,
+    secondaryMuscles: seed.secondaryMuscles,
+    equipment: seed.equipment,
+    metValue: seed.metValue,
+    difficulty: seed.difficulty,
+    description: `${seed.baseName} variation focused on ${variant.toLowerCase()} training stimulus.`,
+    instructions: [
+      `Set up for ${seed.baseName.toLowerCase()} safely.`,
+      `Perform reps using ${variant.toLowerCase()} intent.`,
+      'Control each rep and maintain consistent form.',
+    ],
+    tips: [`Use appropriate load for ${variant.toLowerCase()} day.`],
+  };
+}
+
+const generatedExercises = EXERCISE_SEEDS.flatMap((seed) =>
+  TRAINING_VARIANTS.map((variant) => buildExercise(seed, variant))
+);
 
 export const EXERCISES: Exercise[] = [
   {
@@ -157,7 +244,16 @@ export const EXERCISES: Exercise[] = [
     instructions: ['Squat with dumbbells.', 'Drive up explosively.', 'Press overhead at top.'],
     tips: ['Keep torso upright.'],
   },
+  ...generatedExercises,
 ];
+
+export const EXERCISE_IMAGE_ASSETS: Record<string, string> = EXERCISES.reduce<Record<string, string>>(
+  (acc, exercise) => {
+    acc[exercise.id] = CATEGORY_IMAGE_ASSET[exercise.category];
+    return acc;
+  },
+  {}
+);
 
 export const WORKOUT_TEMPLATES: WorkoutTemplate[] = [
   {

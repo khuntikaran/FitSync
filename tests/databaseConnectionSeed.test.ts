@@ -71,6 +71,9 @@ describe('ExerciseRepository.seedDefaults', () => {
     const sqls = adapter.calls.map((c) => c.sql);
     expect(sqls[0]).toBe('BEGIN TRANSACTION;');
     expect(sqls.some((sql) => sql.includes('INSERT OR REPLACE INTO exercises'))).toBe(true);
+
+    const firstInsert = adapter.calls.find((call) => call.sql.includes('INSERT OR REPLACE INTO exercises'));
+    expect(firstInsert?.params.at(-1)).toContain('assets/images/exercises/categories/');
     expect(sqls.at(-1)).toBe('COMMIT;');
   });
 });

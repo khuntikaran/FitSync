@@ -4,6 +4,7 @@ import { AppSettingsRepository } from '../../database/repositories/AppSettingsRe
 import { UserRepository } from '../../database/repositories/UserRepository';
 import { WorkoutRepository } from '../../database/repositories/WorkoutRepository';
 import { AppConfig } from '../../constants/config';
+import { BackupFileAdapter } from './adapters/reactNativeFileShareAdapter';
 
 type BackupVersion = typeof AppConfig.backupVersion;
 
@@ -49,7 +50,31 @@ function normalizeImportPayload(payload: ImportData): ExportData {
   };
 }
 
+class NoopBackupFileAdapter implements BackupFileAdapter {
+  getDocumentDirectoryPath(): string {
+    throw new Error('Backup file adapter is not configured.');
+  }
+
+  async writeFile(_path: string, _content: string, _encoding: 'utf8'): Promise<void> {
+    throw new Error('Backup file adapter is not configured.');
+  }
+
+  async readFile(_path: string, _encoding: 'utf8'): Promise<string> {
+    throw new Error('Backup file adapter is not configured.');
+  }
+
+  async share(_payload: { url: string; type: string; filename: string }): Promise<void> {
+    throw new Error('Backup file adapter is not configured.');
+  }
+}
+
 export class BackupService {
+  private static fileAdapter: BackupFileAdapter = new NoopBackupFileAdapter();
+
+  static setFileAdapter(adapter: BackupFileAdapter): void {
+    BackupService.fileAdapter = adapter;
+  }
+
   static async exportData(): Promise<ExportData> {
     return {
       version: AppConfig.backupVersion,
@@ -111,5 +136,26 @@ export class BackupService {
     await AppSettingsRepository.replaceAll(data.appSettings);
 
     return true;
+  }
+
+
+  static async exportToFile(): Promise<string> {
+    const data = await BackupService.exportData();
+    const backupFilePath = `${BackupService.fileAdapter.getDocumentDirectoryPath()}/fitsync_backup_${Date.now()}.json`;
+
+    await BackupService.fileAdapter.writeFile(backupFilePath, JSON.stringify(data, null, 2), 'utf8');
+    await BackupService.fileAdapter.share({
+      url: `file://${backupFilePath}` ,
+      type: 'application/json',
+      filename: 'fitsync_backup',
+    });
+
+    return backupFilePath;
+  }
+
+  static async importFromFile(filePath: string): Promise<boolean> {
+    const content = await BackupService.fileAdapter.readFile(filePath, 'utf8');
+    const payload = JSON.parse(content) as unknown;
+    return BackupService.importData(payload);
   }
 }
