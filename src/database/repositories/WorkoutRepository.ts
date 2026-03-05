@@ -30,7 +30,7 @@ export class WorkoutRepository {
   }
 
   static async getAll(): Promise<WorkoutSession[]> {
-    return WorkoutRepository.workouts;
+    return [...WorkoutRepository.workouts];
   }
 
   static async replaceAll(workouts: WorkoutSession[]): Promise<void> {
