@@ -9,8 +9,6 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - Scientific calculation service in `src/services/calculations/CalorieCalculator.ts`
 - Unit conversion helpers plus shared ID/date utilities in `src/utils`
 - Theming constants and app config in `src/constants`
-- Unit conversion helpers in `src/utils/unitConversion.ts`
-- Theming constants in `src/constants/colors.ts`
 - SQLite schema string in `src/database/schema.ts`
 - Zustand stores for user/workout workflows in `src/store`
 
@@ -25,6 +23,13 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 - Workout analytics/finalization/history/progress helpers in `src/services/analytics`, `src/services/workout`, and `src/services/progress`
 - Measurement and PR domain services in `src/services/measurements/MeasurementService.ts` and `src/services/records/PersonalRecordService.ts`
 - Dashboard summary aggregation in `src/services/dashboard/DashboardService.ts`
+- Expanded exercise library to 150+ entries with 12-split starter templates in `src/constants/exercises.ts`
+- Exercise image asset mapping and category placeholders in `src/assets/images/exercises/categories`
+- Backup export/import payload helpers + app settings support in `src/services/backup/BackupService.ts`
+- React Native adapter boundaries and runtime wiring for SQLite, notifications, and file/share
+- Screen controllers for onboarding, home, workout, history, progress, and settings connected to stores/services
+- PR/measurement form handlers and progress chart pipeline in `src/screens/progress/formsAndCharts.ts`
+- Comprehensive Vitest unit/integration test suite with coverage and CI script (`test`, `test:coverage`, `test:ci`)
 - Expanded exercise list and full 12-split starter workout templates in `src/constants/exercises.ts`
 - Expanded exercise library to 150+ entries with category image asset mapping in `src/constants/exercises.ts`
 - Backup export/import payload helpers in `src/services/backup/BackupService.ts`
@@ -73,6 +78,9 @@ Offline-first fitness tracking architecture for React Native (iOS + Android), fo
 
 ## Next steps
 
+1. Build React Native visual screen components and connect them to screen controllers.
+3. Add richer progress chart data sources and deeper analytics visualizations.
+4. Add iOS/Android app shell assets and release prep (icons, splash, permissions polishing).
 4. Add unit tests once package registry access allows installing dependencies.
 5. Build PR/measurement UI forms and chart rendering pipeline.
 5. Add body measurements/PR repositories and richer progress chart data sources.

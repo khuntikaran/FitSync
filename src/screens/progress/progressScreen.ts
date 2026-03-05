@@ -2,6 +2,7 @@ import { BodyMeasurementRepository } from '../../database/repositories/BodyMeasu
 import { PersonalRecordRepository } from '../../database/repositories/PersonalRecordRepository';
 import { WorkoutRepository } from '../../database/repositories/WorkoutRepository';
 import { ProgressPeriod, ProgressService } from '../../services/progress/ProgressService';
+import { buildProgressChartPipeline } from './formsAndCharts';
 
 export interface ProgressScreenData {
   volume: ReturnType<typeof ProgressService.summarizeVolumeByPeriod>;
@@ -21,4 +22,9 @@ export async function loadProgressScreenData(period: ProgressPeriod): Promise<Pr
     weightTrend: ProgressService.buildWeightTrend(measurements),
     activeRecords: records.filter((record) => record.isActive).length,
   };
+}
+
+
+export async function loadProgressChartData(period: ProgressPeriod) {
+  return buildProgressChartPipeline(period);
 }
