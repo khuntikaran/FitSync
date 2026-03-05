@@ -1,7 +1,6 @@
 import { PersonalRecord } from '../../types';
 import { PersonalRecordRepository } from '../../database/repositories/PersonalRecordRepository';
-
-const generateId = () => `pr-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+import { createId } from '../../utils/id';
 
 interface RecordInput {
   userId: string;
@@ -26,7 +25,7 @@ export class PersonalRecordService {
     }
 
     const record: PersonalRecord = {
-      id: generateId(),
+      id: createId('pr'),
       userId: input.userId,
       exerciseId: input.exerciseId,
       exerciseName: input.exerciseName,
