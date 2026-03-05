@@ -35,5 +35,6 @@ export class BackupService {
       Array.isArray(candidate.measurements) &&
       Array.isArray(candidate.records)
     );
+    return candidate.version === '1.0' && typeof candidate.exportDate === 'string';
   }
 }
