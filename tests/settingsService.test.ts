@@ -36,6 +36,18 @@ describe('SettingsService', () => {
     });
   });
 
+
+  it('returns defaults when stored preferences JSON is invalid', async () => {
+    await AppSettingsRepository.set('user_preferences', '{invalid-json');
+
+    const prefs = await SettingsService.getPreferences();
+    expect(prefs).toEqual({
+      theme: 'system',
+      unitSystem: 'metric',
+      restTimerSoundEnabled: true,
+    });
+  });
+
   it('preserves current values when update includes invalid fields', async () => {
     await SettingsService.updatePreferences({
       theme: 'dark',

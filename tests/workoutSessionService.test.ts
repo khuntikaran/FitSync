@@ -32,6 +32,13 @@ describe('WorkoutSessionService.finalize', () => {
     ).toThrow('Workout start time must be a valid ISO datetime.');
   });
 
+
+  it('throws when startTime is missing', () => {
+    expect(() => WorkoutSessionService.finalize(buildSession({ startTime: '' }))).toThrow(
+      'Workout start time is required.'
+    );
+  });
+
   it('throws when name is blank', () => {
     expect(() => WorkoutSessionService.finalize(buildSession({ name: '   ' }))).toThrow(
       'Workout name is required.'
