@@ -117,4 +117,3 @@ No major checklist items remain from the current build plan.
 5. Build active workout tracking screen with rest timer integration.
 
 [![Repolytics](https://api.repolytics.site/api/badge/khuntikaran/FitSync?style=flat&color=blue&metric=code)](https://www.repolytics.site/github/khuntikaran/FitSync)
-[![Repolytics](https://api.repolytics.site/api/badge/khuntikaran/FitSync?style=flat&color=blue&metric=code)](https://www.repolytics.site/github/khuntikaran/FitSync)
